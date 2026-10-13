@@ -1,5 +1,16 @@
 # Keymint
 
+[![Release](https://img.shields.io/github/v/release/falhad/keymint?style=flat-square)](https://github.com/falhad/keymint/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/falhad/keymint/total?style=flat-square)](https://github.com/falhad/keymint/releases)
+[![License: MIT](https://img.shields.io/github/license/falhad/keymint?style=flat-square)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/falhad/keymint?style=flat-square)](https://github.com/falhad/keymint/stargazers)
+[![Issues](https://img.shields.io/github/issues/falhad/keymint?style=flat-square)](https://github.com/falhad/keymint/issues)
+[![Last commit](https://img.shields.io/github/last-commit/falhad/keymint?style=flat-square)](https://github.com/falhad/keymint/commits/main)
+![Platforms](https://img.shields.io/badge/platforms-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey?style=flat-square)
+[![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-24C8D8?style=flat-square&logo=tauri&logoColor=white)](https://tauri.app)
+![Rust](https://img.shields.io/badge/Rust-stable-orange?style=flat-square&logo=rust&logoColor=white)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
+
 A fast, lightweight, open-source command palette for macOS, Windows and Linux,
 inspired by Raycast. Press a shortcut, type, hit Enter.
 
@@ -156,9 +167,7 @@ docs/ARCHITECTURE.md   design and how to add commands
 ## Contributing
 
 Issues and pull requests are welcome at
-<https://github.com/falhad/keymint>. Before opening a PR, run
-`cargo test --workspace`, `cargo clippy --workspace --all-targets -- -D warnings`
-and `pnpm typecheck`.
+<https://github.com/falhad/keymint>. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
