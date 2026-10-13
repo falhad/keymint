@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-danger: var(--danger);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+
+:root {
+  --surface: #ffffff;
+  --surface-2: #f2f3f5;
+  --line: #e2e4e9;
+  --fg: #16181d;
+  --muted: #6b7280;
+  --accent: #2f6bff;
+  --accent-fg: #ffffff;
+  --danger: #d92d20;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --surface: #1b1d22;
+    --surface-2: #26292f;
+    --line: #34383f;
+    --fg: #eceef2;
+    --muted: #9aa1ad;
+    --accent: #5b8cff;
+    --accent-fg: #0b1020;
+    --danger: #ff6b5e;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --surface: #1b1d22;
+  --surface-2: #26292f;
+  --line: #34383f;
+  --fg: #eceef2;
+  --muted: #9aa1ad;
+  --accent: #5b8cff;
+  --accent-fg: #0b1020;
+  --danger: #ff6b5e;
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--fg);
+  background: transparent;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+/* The settings window is opaque; only the palette is transparent. */
+body.opaque {
+  background: var(--surface);
+}
+
+input,
+textarea,
+pre {
+  user-select: text;
+}
+
+kbd {
+  font: inherit;
+  font-size: 11px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 4px;
+}

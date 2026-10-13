@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Keymint windows only use core IPC; privileged work happens in Rust commands.",
+  "windows": ["palette", "settings"],
+  "permissions": ["core:default"]
+}
