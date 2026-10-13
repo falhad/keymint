@@ -1,5 +1,6 @@
 # Keymint
 
+[![CI](https://github.com/falhad/keymint/actions/workflows/ci.yml/badge.svg)](https://github.com/falhad/keymint/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/falhad/keymint?style=flat-square)](https://github.com/falhad/keymint/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/falhad/keymint/total?style=flat-square)](https://github.com/falhad/keymint/releases)
 [![License: MIT](https://img.shields.io/github/license/falhad/keymint?style=flat-square)](LICENSE)
