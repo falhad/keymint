@@ -22,7 +22,9 @@ Stack: Tauri 2, Rust core, React + TypeScript + Tailwind CSS 4.
 
 ## Install
 
-Keymint is not published as a release yet. Build it from source:
+**Linux:** download the `.deb`, `.rpm` or `.AppImage` from the
+[latest release](https://github.com/falhad/keymint/releases/latest).
+macOS and Windows: build from source for now:
 
 ```bash
 git clone https://github.com/falhad/keymint.git
