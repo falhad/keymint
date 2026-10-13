@@ -33,9 +33,31 @@ Stack: Tauri 2, Rust core, React + TypeScript + Tailwind CSS 4.
 
 ## Install
 
-**Linux:** download the `.deb`, `.rpm` or `.AppImage` from the
-[latest release](https://github.com/falhad/keymint/releases/latest).
-macOS and Windows: build from source for now:
+### Linux
+
+Pick one (version 0.1.0, x86_64):
+
+```bash
+# Debian / Ubuntu
+curl -LO https://github.com/falhad/keymint/releases/download/v0.1.0/Keymint_0.1.0_amd64.deb
+sudo apt install ./Keymint_0.1.0_amd64.deb
+
+# Fedora / RHEL
+sudo dnf install https://github.com/falhad/keymint/releases/download/v0.1.0/Keymint-0.1.0-1.x86_64.rpm
+
+# Any distro (AppImage, no install)
+curl -LO https://github.com/falhad/keymint/releases/download/v0.1.0/Keymint_0.1.0_amd64.AppImage
+chmod +x Keymint_0.1.0_amd64.AppImage
+./Keymint_0.1.0_amd64.AppImage
+```
+
+Then run `keymint` (or start it from your app menu). On Wayland, bind a
+shortcut to `keymint --toggle`, see [Platform notes](#platform-notes). All
+files are on the [releases page](https://github.com/falhad/keymint/releases/latest).
+
+### macOS and Windows
+
+No prebuilt packages yet. Build from source:
 
 ```bash
 git clone https://github.com/falhad/keymint.git
