@@ -45,6 +45,44 @@ impl Command for ActionCommand {
     }
 }
 
+const PR_APPROVED_MESSAGES: &[&str] = &[
+    "Approved! 🎉 Clean, readable and easy to follow. Thanks for the great work!",
+    "LGTM! 🚀 Nicely done — thanks for taking the time to make this so tidy.",
+    "Approved ✅ Great job, this looks solid. Happy to see it merged!",
+    "Looks great to me! 🙌 Thanks for the thoughtful PR. Approving.",
+    "Approved with a smile 😊 Really appreciate the care you put into this.",
+    "Nice work! 👏 Everything checks out on my side. Approved.",
+    "Ship it! 🚢 Lovely change, thank you for the effort.",
+    "Approved! 💚 Thanks for keeping this focused and well explained.",
+    "All good here ✨ Great contribution, approving. Thank you!",
+    "LGTM 👍 Thanks for the clear description and clean implementation.",
+];
+
+/// Picks a message without extra dependencies; the clock's nanoseconds are random enough here.
+pub fn pr_approved_message() -> &'static str {
+    let nanos = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.subsec_nanos() as usize)
+        .unwrap_or(0);
+    PR_APPROVED_MESSAGES[nanos % PR_APPROVED_MESSAGES.len()]
+}
+
+/// A command that produces text without any input.
+struct SnippetCommand {
+    manifest: CommandManifest,
+    produce: fn() -> &'static str,
+}
+
+#[async_trait]
+impl Command for SnippetCommand {
+    fn manifest(&self) -> &CommandManifest {
+        &self.manifest
+    }
+    async fn run(&self, _: &CommandContext, _: CommandInput) -> Result<CommandOutput> {
+        Ok(CommandOutput::Text { text: (self.produce)().to_string() })
+    }
+}
+
 pub fn word_count(text: &str) -> String {
     let words = text.split_whitespace().count();
     let chars = text.chars().count();
@@ -99,6 +137,15 @@ impl CommandProvider for BuiltinProvider {
                     .keywords(["exit", "close"]),
                 action: Action::Quit,
             }),
+            Arc::new(SnippetCommand {
+                manifest: CommandManifest::new("text.pr-approved", "PR Approved Message", "Text")
+                    .slash("approve")
+                    .subtitle("Insert a random friendly pull request approval")
+                    .icon("check")
+                    .keywords(["pull request", "pr", "lgtm", "review", "approve"])
+                    .inserts_result(true),
+                produce: pr_approved_message,
+            }),
             transform("uppercase", "upper", "Uppercase", "Convert text to UPPERCASE", "arrow-up", true, |t| t.to_uppercase()),
             transform("lowercase", "lower", "Lowercase", "Convert text to lowercase", "arrow-down", true, |t| t.to_lowercase()),
             transform("sort-lines", "sort", "Sort Lines", "Sort lines alphabetically", "list", true, sort_lines),
@@ -119,6 +166,11 @@ mod tests {
     #[test]
     fn sorts_case_insensitively() {
         assert_eq!(sort_lines("b\nA\nc"), "A\nb\nc");
+    }
+
+    #[test]
+    fn pr_approved_message_is_from_the_list() {
+        assert!(PR_APPROVED_MESSAGES.contains(&pr_approved_message()));
     }
 
     #[test]

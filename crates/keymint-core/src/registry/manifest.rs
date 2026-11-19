@@ -35,6 +35,10 @@ pub struct CommandManifest {
     pub input: InputKind,
     /// Whether the command's text result can replace the selection.
     pub replaces_selection: bool,
+    /// Whether the text result is typed into the previously focused app right away,
+    /// even when nothing was selected (e.g. canned snippets).
+    #[serde(default)]
+    pub inserts_result: bool,
     /// Name used after `/` in the palette, e.g. `ste` for `/ste`. Lowercase, no spaces.
     #[serde(default)]
     pub slash: Option<String>,
@@ -54,6 +58,7 @@ impl CommandManifest {
             category: category.into(),
             input: InputKind::None,
             replaces_selection: false,
+            inserts_result: false,
             slash: None,
             shortcut: None,
         }
@@ -91,6 +96,10 @@ impl CommandManifest {
     }
     pub fn replaces_selection(mut self, yes: bool) -> Self {
         self.replaces_selection = yes;
+        self
+    }
+    pub fn inserts_result(mut self, yes: bool) -> Self {
+        self.inserts_result = yes;
         self
     }
 }

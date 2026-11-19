@@ -148,7 +148,9 @@ export function Palette() {
     try {
       const out = await api.execute(cmd.id, input, seq);
       if (seq !== runSeq.current) return; // cancelled or superseded
-      if (out.type === "text" && autoReplaceRef.current && cmd.replaces_selection && fromSelection) {
+      if (out.type === "text" && cmd.inserts_result) {
+        await pasteBack(out.text);
+      } else if (out.type === "text" && autoReplaceRef.current && cmd.replaces_selection && fromSelection) {
         await pasteBack(out.text);
       } else if (out.type === "text") {
         setView({ name: "run", cmd, input, fromSelection, state: { kind: "text", text: out.text } });

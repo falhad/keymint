@@ -12,6 +12,7 @@ export interface CommandManifest {
   slash: string | null;
   input: InputKind;
   replaces_selection: boolean;
+  inserts_result: boolean;
   shortcut: string | null;
 }
 
