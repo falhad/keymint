@@ -56,15 +56,31 @@ const PR_APPROVED_MESSAGES: &[&str] = &[
     "Approved! 💚 Thanks for keeping this focused and well explained.",
     "All good here ✨ Great contribution, approving. Thank you!",
     "LGTM 👍 Thanks for the clear description and clean implementation.",
+    "Approved! 🌟 This is exactly what we needed. Thank you for the quick turnaround!",
+    "Beautiful work! 🎨 The code reads really well. Approving.",
+    "Approved ✅ Thanks for covering the edge cases so carefully.",
+    "Love it! 😍 Simple, clear and well tested. Approved.",
+    "Great PR! 🙏 I learned something from reading this. Approved.",
+    "Approved! 🔥 Solid work, and thanks for the helpful comments in the code.",
+    "Looks good to me 👌 Thank you for making this so easy to review.",
+    "Approved 🎯 Right to the point, no surprises. Nicely done!",
+    "Fantastic job! 🏆 Everything looks in order. Approving.",
+    "Approved! 🤝 Thanks for the patience and the clean follow-up fixes.",
+    "Well done! 💪 Tidy diff, clear intent. Good to merge.",
+    "LGTM ☀️ Appreciate the thoughtful details. Thanks a lot!",
+    "Approved! 🧹 Thanks for leaving the code cleaner than you found it.",
+    "Great stuff! 🙌 Tests pass, code is clear. Approved.",
+    "Approved 🚀 Thanks for the effort, this is a nice improvement.",
 ];
 
-/// Picks a message without extra dependencies; the clock's nanoseconds are random enough here.
+/// Picks a message at random. `RandomState` is seeded randomly by the OS for every instance,
+/// so this needs no extra dependency and does not depend on the clock's resolution.
 pub fn pr_approved_message() -> &'static str {
-    let nanos = std::time::SystemTime::now()
-        .duration_since(std::time::UNIX_EPOCH)
-        .map(|d| d.subsec_nanos() as usize)
-        .unwrap_or(0);
-    PR_APPROVED_MESSAGES[nanos % PR_APPROVED_MESSAGES.len()]
+    use std::collections::hash_map::RandomState;
+    use std::hash::{BuildHasher, Hasher};
+
+    let random = RandomState::new().build_hasher().finish() as usize;
+    PR_APPROVED_MESSAGES[random % PR_APPROVED_MESSAGES.len()]
 }
 
 /// A command that produces text without any input.
