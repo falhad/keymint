@@ -7,7 +7,10 @@
 //!   when installed; otherwise the text is left on the clipboard.
 
 mod wayland;
+#[cfg(target_os = "linux")]
+mod portal;
 
+use std::sync::Mutex;
 use std::thread::sleep;
 use std::time::{Duration, Instant};
 
@@ -41,8 +44,23 @@ pub fn capture() -> Option<String> {
     text.filter(|t| !t.trim().is_empty())
 }
 
+/// One Enigo for the whole app run. On Wayland every `Enigo::new` opens a new
+/// RemoteDesktop portal session, which makes GNOME ask for permission again.
+static ENIGO: Mutex<Option<Enigo>> = Mutex::new(None);
+
 fn press_shortcut(letter: char) -> Result<(), String> {
-    let mut enigo = Enigo::new(&Settings::default()).map_err(|e| e.to_string())?;
+    #[cfg(target_os = "linux")]
+    if platform::is_wayland() {
+        match portal::press_shortcut(letter) {
+            Ok(()) => return Ok(()),
+            Err(e) => eprintln!("keymint: portal keyboard failed, falling back to XTest: {e}"),
+        }
+    }
+    let mut guard = ENIGO.lock().map_err(|_| "keyboard simulator lock is poisoned".to_string())?;
+    if guard.is_none() {
+        *guard = Some(Enigo::new(&Settings::default()).map_err(|e| e.to_string())?);
+    }
+    let enigo = guard.as_mut().expect("initialised above");
     enigo.key(MODIFIER, Direction::Press).map_err(|e| e.to_string())?;
     let click = enigo.key(Key::Unicode(letter), Direction::Click);
     // Always release the modifier, even if the click failed.
